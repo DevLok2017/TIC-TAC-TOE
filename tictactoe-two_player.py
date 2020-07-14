@@ -15,18 +15,19 @@ class Board:
         print(" {} | {} | {} ".format(self.cells[7], self.cells[8], self.cells[9]) + " \t{} | {} | {} ".format(7, 8, 9))
 
     def update_cell(self, cell_no, player):     # update the board with player
+        while(True):
+            if cell_no<1 or cell_no>9:      # check if move is acceptable
+                cell_no = int(input("\n Player O) Wrong Choice \n Please choose between < 1 - 9 >: "))
+                
+            elif board.cells[cell_no] != ' ':       # check if move is available
+                cell_no = int(input("\n Player O) Wrong Choice {} is already occupied".format(cell_no) + 
+                                    "\n Please choose another between < 1 - 9 >: "))
+                
+            else:
+                break    
+                
         if self.cells[cell_no] == " ":
             self.cells[cell_no] = player
-
-    def is_illegal(self, cell_no):      # check if the move is acceptable or not
-        if cell_no not in range(1, 10):
-            return True
-        return False
-
-    def not_empty(self, cell_no):       # check for the availability of cell
-        if self.cells[cell_no] == " ":
-            return False
-        return True
 
     def is_winner(self, player):       # check for winner, in the possible 8 combinations
         for combo in [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]]:
@@ -73,11 +74,6 @@ if __name__ == '__main__':
 
         # get input from 'O'
         o_choice = int(input("\n Player O) Choose between < 1 - 9 >: "))
-        while board.is_illegal(o_choice):       # check if move is correct
-            o_choice = int(input("\n Player O) Wrong Choice \n Please choose between < 1 - 9 >: "))
-        while board.not_empty(o_choice):       # check if move is available
-            o_choice = int(input("\n Player O) Wrong Choice {} is already occupied".format(o_choice) +
-                                 "\n Please choose another between < 1 - 9 >: "))
 
         # update board
         board.update_cell(o_choice, "O")
@@ -106,12 +102,7 @@ if __name__ == '__main__':
         refresh_screen()
         # get X input
         x_choice = int(input("\n Player X) Choose between < 1 - 9 >: "))
-        while board.is_illegal(x_choice):       # check if move is correct
-            x_choice = int(input("\n Player X) Wrong Choice \nPlease choose between < 1 - 9 >: "))
-        while board.not_empty(x_choice):       # check if move is available
-            x_choice = int(input("\n Player X) Wrong Choice {} is already occupied".format(x_choice) +
-                                 "\n Please choose another between < 1 - 9 >: "))
-
+        
         # update board
         board.update_cell(x_choice, "X")
         # check for X's win
